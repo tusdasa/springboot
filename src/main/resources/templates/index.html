@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="page-header">
+                <h1>
+                    用户详情页 <span>示例</span>
+                </h1>
+            </div>
+            <a type="button" class="btn btn-default btn-primary" href="/create">创建</a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        UID
+                    </th>
+                    <th>
+                        firstname
+                    </th>
+                    <th>
+                        lastname
+                    </th>
+                    <th>
+                        birthday
+                    </th>
+                    <th>
+                        options
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="success" th:each="user :${users}">
+                    <td th:text="${user.uid}">
+                    </td>
+                    <td th:text="${user.firstName}">
+                    </td>
+                    <td th:text="${user.lastName}">
+                    </td>
+                    <td th:text="${#dates.format(user.birthday, 'yyyy-MM-dd')}">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-danger" th:onclick="'deleteUser('+${user.uid}+')'">删除</button>
+                        <a type="button" class="btn btn-default btn-primary" th:href="'/update/'+${user.uid}">更新</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function deleteUser(uid){
+        $.ajax({
+            url:"/delete/"+uid,
+            method:'delete',
+            success:function(result){
+                location.reload();
+            }
+        });
+    }
+</script>
+</html>
